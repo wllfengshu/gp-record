@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="app.wllfengshu.dao.CustomerDao" >
+
+	<resultMap id="recordList" type="app.wllfengshu.entity.Record">
+        <id column="id" property="id" />
+        <result column="ani" property="ani" />
+        <result column="wait_length" property="wait_length" />
+        <result column="begin_time" property="begin_time" />
+        <result column="call_type" property="call_type" />
+        <result column="call_type_name" property="call_type_name" />
+        <result column="dnis" property="dnis" />
+        <result column="end_time" property="end_time" />
+        <result column="end_type" property="end_type" />
+        <result column="end_type_name" property="end_type_name" />
+        <result column="cost" property="cost" />
+        <result column="length" property="length" />
+        <result column="satisfaction" property="satisfaction" />
+        <result column="user_id" property="user_id" />
+    </resultMap>
+
+	<select id="getRecords" parameterType="string" resultMap="recordList" >
+		SELECT 
+			*
+		FROM 
+			t_fact_call fc
+		WHERE 
+			fc.user_id = #{user_id}
+	</select>
+
+	<insert id="addRecord" parameterType="app.wllfengshu.entity.Record">  
+        insert into 
+        	t_fact_call
+        values
+        	(#{record.id},#{record.ani},#{record.wait_length},#{record.begin_time},#{record.call_type},#{record.call_type_name},
+        	#{record.dnis},#{record.end_time},#{record.end_type},#{record.end_type_name},#{record.cost},#{record.length},
+        	#{record.satisfaction},#{record.user_id})
+    </insert>
+
+	<select id="getRecord" parameterType="String" resultType="app.wllfengshu.entity.Record" >
+		SELECT 
+			*
+		FROM 
+			t_fact_call fc
+		WHERE 
+			fc.id = #{id}
+	</select>
+
+    <delete id="deleteRecord" parameterType="String">  
+        delete from
+        	t_fact_call
+        where 
+        	id = #{id}  
+    </delete>
+</mapper>
