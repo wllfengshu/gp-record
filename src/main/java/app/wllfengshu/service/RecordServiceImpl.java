@@ -61,7 +61,6 @@ public class RecordServiceImpl implements RecordService {
 		AuthUtil.instance.checkUserInfo(sessionId, user_id);
 		Record record = recordDao.getRecord(record_id);
 		responseMap.put("data", record);
-		responseMap.put("count", 1);
 		responseMap.put("timestamp", String.valueOf(System.currentTimeMillis()));
 		return gson.toJson(responseMap);
 	}
