@@ -25,10 +25,17 @@ public class RecordServiceImpl implements RecordService {
 	private RecordDao recordDao;
 	
 	@Override
-	public String getRecords(String sessionId,String user_id) throws NotAcceptableException {
+	public String getRecords(String sessionId,String user_id,String tenant_id,String call_type,String token,int pageNo,int pageSize) throws NotAcceptableException {
 		Map<String,Object> responseMap = new HashMap<String,Object>();
 		AuthUtil.instance.checkUserInfo(sessionId, user_id);
-		List<Record> records = recordDao.getRecords(user_id);
+		List<Record> records =null;
+		if (token.equals("crm")) {
+			tenant_id="";
+			records = recordDao.getRecords(user_id,tenant_id,call_type);
+		}else if(token.equals("tm")){
+			records = recordDao.getRecords(user_id,tenant_id,call_type);
+		}
+		
 		responseMap.put("data", records);
 		responseMap.put("count", records.size());
 		responseMap.put("timestamp", String.valueOf(System.currentTimeMillis()));

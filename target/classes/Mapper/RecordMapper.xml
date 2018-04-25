@@ -19,13 +19,13 @@
         <result column="user_id" property="user_id" />
     </resultMap>
 
-	<select id="getRecords" parameterType="string" resultMap="recordList" >
+	<select id="getRecords" parameterType="String" resultMap="recordList" >
 		SELECT 
 			*
 		FROM 
 			t_fact_call fc
 		WHERE 
-			fc.user_id = #{user_id}
+			fc.user_id = #{user_id} AND fc.call_type = #{call_type} 
 	</select>
 
 	<insert id="addRecord" parameterType="app.wllfengshu.entity.Record">  

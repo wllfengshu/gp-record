@@ -9,7 +9,7 @@ import app.wllfengshu.entity.Record;
 
 @Repository
 public interface RecordDao {
-	public List<Record> getRecords(@Param("user_id")String user_id);
+	public List<Record> getRecords(@Param("user_id")String user_id,@Param("call_type")String call_type);
 
 	public void addRecord(@Param("record")Record record);
 

@@ -8,6 +8,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,7 +21,7 @@ import app.wllfengshu.service.RecordService;
 import app.wllfengshu.util.LogUtils;
 
 /**
- * @title 通话记录管理（不提供修改录音记录的接口）
+ * @title 通话记录管理（不提供修改通话记录的接口）
  */
 @Controller
 @Path("/record")
@@ -39,10 +40,14 @@ public class RecordRest {
     @GET
     public Response getRecords(@HeaderParam(value="sessionId") String sessionId,
     		@HeaderParam(value="user_id") String user_id,
+    		@HeaderParam(value="tenant_id") String tenant_id,
+    		@HeaderParam(value="call_type") String call_type,
+    		@QueryParam("token") String token,
+    		@QueryParam("pageNo") int pageNo,@QueryParam("pageSize") int pageSize,
     		@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String responseStr = null;
 		try{
-			responseStr=recordService.getRecords(sessionId,user_id);
+			responseStr=recordService.getRecords(sessionId,user_id,tenant_id,call_type,token,pageNo,pageSize);
 		}catch (NotAcceptableException e) {
 			System.out.println(e);
 			return Response.serverError().entity("{\"message\":\""+e.getMessage()+"\",\"timestamp\":\""+System.currentTimeMillis()+"\"}").status(406).build();
@@ -67,6 +72,7 @@ public class RecordRest {
     public Response addRecord(String record,
     		@HeaderParam(value="sessionId") String sessionId,
     		@HeaderParam(value="user_id") String user_id,
+    		@HeaderParam(value="call_type") String call_type,
     		@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String responseStr = null;
 		try{
@@ -96,6 +102,7 @@ public class RecordRest {
     public Response getRecord(@PathParam("record_id")String record_id,
     		@HeaderParam(value="sessionId") String sessionId,
     		@HeaderParam(value="user_id") String user_id,
+    		@HeaderParam(value="call_type") String call_type,
     		@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String responseStr = null;
 		try{
@@ -125,6 +132,7 @@ public class RecordRest {
     public Response deleteRecord(@PathParam("record_id")String record_id,
     		@HeaderParam(value="sessionid") String sessionId,
     		@HeaderParam(value="user_id") String user_id,
+    		@HeaderParam(value="call_type") String call_type,
     		@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String responseStr = null;
 		try{
