@@ -15,6 +15,8 @@ public class Record {
 	private Double length;
 	private String satisfaction;
 	private String user_id;
+	private String company_name;
+	private String domain;
 	public String getId() {
 		return id;
 	}
@@ -98,6 +100,18 @@ public class Record {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public String getCompany_name() {
+		return company_name;
+	}
+	public void setCompany_name(String company_name) {
+		this.company_name = company_name;
+	}
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
 	}
 	
 	

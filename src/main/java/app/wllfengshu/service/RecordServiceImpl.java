@@ -25,17 +25,19 @@ public class RecordServiceImpl implements RecordService {
 	private RecordDao recordDao;
 	
 	@Override
-	public String getRecords(String sessionId,String user_id,String tenant_id,String call_type,String token,int pageNo,int pageSize) throws NotAcceptableException {
+	public String getRecords(String sessionId,String user_id,String tenant_id,String call_type,String token,String domain,String ani,String dnis,int pageNo,int pageSize) throws NotAcceptableException {
 		Map<String,Object> responseMap = new HashMap<String,Object>();
 		AuthUtil.instance.checkUserInfo(sessionId, user_id);
 		List<Record> records =null;
-		if (token.equals("crm")) {
-			tenant_id="";
-			records = recordDao.getRecords(user_id,tenant_id,call_type);
-		}else if(token.equals("tm")){
-			records = recordDao.getRecords(user_id,tenant_id,call_type);
+		if (token.equals("crm")) {//使用crm系统的用户，只能查询属于自己数据
+			records = recordDao.getRecords(user_id,"",call_type,domain,ani,dnis,(pageNo-1)*pageSize,pageSize);
+		}else if(token.equals("tm")){//使用tm系统的用户，可以查询当前租户下所有数据
+			records = recordDao.getRecords("",tenant_id,call_type,domain,ani,dnis,(pageNo-1)*pageSize,pageSize);
+		}else if (token.equals("manage")) {//使用manage系统的用户，查询数据库中所有数据
+			records = recordDao.getRecords("","",call_type,domain,ani,dnis,(pageNo-1)*pageSize,pageSize);
+		}else{//其他token直接返回失败
+			throw new NotAcceptableException("凭证异常");
 		}
-		
 		responseMap.put("data", records);
 		responseMap.put("count", records.size());
 		responseMap.put("timestamp", String.valueOf(System.currentTimeMillis()));

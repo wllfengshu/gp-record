@@ -23,9 +23,16 @@
 		SELECT 
 			*
 		FROM 
-			t_fact_call fc
+			t_fact_call fc 
 		WHERE 
-			fc.user_id = #{user_id} AND fc.call_type = #{call_type} 
+			fc.call_type = #{call_type} 
+			<if test="!user_id.equals('')">AND fc.user_id=#{user_id} </if>
+			<if test="!tenant_id.equals('')">AND fc.tenant_id=#{tenant_id} </if>
+			<if test="!domain.equals('')">AND fc.domain=#{domain} </if>
+			<if test="!ani.equals('')">AND fc.ani=#{ani} </if>
+			<if test="!dnis.equals('')">AND fc.dnis=#{dnis} </if>
+			ORDER BY fc.begin_time , fc.end_time desc 
+			LIMIT #{pageStart} ,#{pageEnd} 
 	</select>
 
 	<insert id="addRecord" parameterType="app.wllfengshu.entity.Record">  
