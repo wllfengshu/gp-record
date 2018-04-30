@@ -38,7 +38,8 @@ public class RecordRest {
 	 * @return
 	 */
     @GET
-    public Response getRecords(@HeaderParam(value="sessionId") String sessionId,
+    public Response getRecords(
+    		@HeaderParam(value="sessionId") String sessionId,
     		@HeaderParam(value="user_id") String user_id,
     		@HeaderParam(value="tenant_id") String tenant_id,
     		@HeaderParam(value="call_type") String call_type,
