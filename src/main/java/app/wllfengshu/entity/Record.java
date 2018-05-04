@@ -4,7 +4,7 @@ public class Record {
 	private String id;
 	private String ani;
 	private Double wait_length;
-	private String begin_time;
+	private String start_time;
 	private String call_type;
 	private String call_type_name;
 	private String dnis;
@@ -34,12 +34,6 @@ public class Record {
 	}
 	public void setWait_length(Double wait_length) {
 		this.wait_length = wait_length;
-	}
-	public String getBegin_time() {
-		return begin_time;
-	}
-	public void setBegin_time(String begin_time) {
-		this.begin_time = begin_time;
 	}
 	public String getCall_type() {
 		return call_type;
@@ -112,6 +106,12 @@ public class Record {
 	}
 	public void setDomain(String domain) {
 		this.domain = domain;
+	}
+	public String getStart_time() {
+		return start_time;
+	}
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
 	}
 	
 	

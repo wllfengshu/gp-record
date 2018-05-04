@@ -28,6 +28,15 @@ public enum AuthUtil {
 		}
 	}
 	
+	/**
+	 * @titile 获取用户信息
+	 */
+	public JSONObject getUser(String sessionId,String user_id){
+		Object usersAllInfo = getUsersAllInfo(sessionId, user_id);
+		JSONObject userAllInfoJson = JSONObject.fromObject(usersAllInfo);
+		return userAllInfoJson;
+	}
+	
 	/*
 	 * @title 获取user所有信息
 	 */

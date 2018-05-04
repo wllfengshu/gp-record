@@ -6,7 +6,7 @@
         <id column="id" property="id" />
         <result column="ani" property="ani" />
         <result column="wait_length" property="wait_length" />
-        <result column="begin_time" property="begin_time" />
+        <result column="start_time" property="start_time" />
         <result column="call_type" property="call_type" />
         <result column="call_type_name" property="call_type_name" />
         <result column="dnis" property="dnis" />
@@ -31,15 +31,29 @@
 			<if test="!domain.equals('')">AND fc.domain=#{domain} </if>
 			<if test="!ani.equals('')">AND fc.ani=#{ani} </if>
 			<if test="!dnis.equals('')">AND fc.dnis=#{dnis} </if>
-			ORDER BY fc.begin_time , fc.end_time desc 
+			ORDER BY fc.start_time , fc.end_time desc 
 			LIMIT #{pageStart} ,#{pageEnd} 
+	</select>
+
+	<select id="getCount" resultType="int" >
+		SELECT 
+			count(*)
+		FROM 
+			t_fact_call fc 
+		WHERE 
+			fc.call_type = #{call_type} 
+			<if test="!user_id.equals('')">AND fc.user_id=#{user_id} </if>
+			<if test="!tenant_id.equals('')">AND fc.tenant_id=#{tenant_id} </if>
+			<if test="!domain.equals('')">AND fc.domain=#{domain} </if>
+			<if test="!ani.equals('')">AND fc.ani=#{ani} </if>
+			<if test="!dnis.equals('')">AND fc.dnis=#{dnis} </if>
 	</select>
 
 	<insert id="addRecord" parameterType="app.wllfengshu.entity.Record">  
         insert into 
         	t_fact_call
         values
-        	(#{record.id},#{record.ani},#{record.wait_length},#{record.begin_time},#{record.call_type},#{record.call_type_name},
+        	(#{record.id},#{record.ani},#{record.wait_length},#{record.start_time},#{record.call_type},#{record.call_type_name},
         	#{record.dnis},#{record.end_time},#{record.end_type},#{record.end_type_name},#{record.cost},#{record.length},
         	#{record.satisfaction},#{record.user_id})
     </insert>
