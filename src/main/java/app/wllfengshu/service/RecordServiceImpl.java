@@ -32,11 +32,13 @@ public class RecordServiceImpl implements RecordService {
 		if (null==user || user.isNullObject()) {
 			throw new NotAcceptableException("没有权限");
 		}
-		JSONArray roles = user.getJSONArray("roles");
-		JSONObject role = roles.getJSONObject(0);
-		String role_name=role.getString("role_name");
-		if (!"agent".equals(role_name) && !"tm".equals(role_name)) {//允许坐席和租户管理员查看通话记录
-			throw new NotAcceptableException("角色异常");
+		if (!token.equals("manage")) {//后台管理员不做角色判断
+			JSONArray roles = user.getJSONArray("roles");
+			JSONObject role = roles.getJSONObject(0);
+			String role_name=role.getString("role_name");
+			if (!"agent".equals(role_name) && !"tm".equals(role_name)) {//允许坐席和租户管理员查看通话记录
+				throw new NotAcceptableException("角色异常");
+			}
 		}
 		List<Record> records =null;
 		int count=0;
